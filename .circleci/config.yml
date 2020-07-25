@@ -8,12 +8,12 @@ workflows:
       - docker/publish:
           image: auuaa/docker-hy
           tag: 'latest'
-      - heroku:
+      - heroku_deploy:
           requires:
             - docker/publish
 
 jobs:
-  heroku:
+  heroku_deploy:
     executor: docker/machine
     steps:
       - checkout
