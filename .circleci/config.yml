@@ -14,13 +14,16 @@ workflows:
           requires:
             - build
 
-
 jobs:
   publish:
     docker/publish:
-          image: auuaa/docker-hy
-          tag: 'latest'
+        image: auuaa/docker-hy
+        tag: 'latest'
   build:
-    docker/build:
+    executor: docker/machine
+    steps:
+      - checkout
+      - docker/check
+      - docker/build:
           image: auuaa/docker-hy
   
