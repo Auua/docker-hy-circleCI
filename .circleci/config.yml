@@ -10,7 +10,7 @@ workflows:
           tag: 'latest'
       - heroku:
           requires:
-            docker/publish
+            - docker/publish
 
 jobs:
   heroku:
