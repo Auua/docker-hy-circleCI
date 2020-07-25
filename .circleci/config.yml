@@ -4,9 +4,23 @@ orbs:
   heroku: circleci/heroku@0.0.10
   
 workflows:
-  build_and_debloy_herkou:
+  build_and_debloy_heroku:
     jobs:
-      - docker/publish:
+      - publish
+      - build:
+          requires:
+            - publish
+      - heroku/deploy-via-git:
+          requires:
+            - build
+
+
+jobs:
+  publish:
+    docker/publish:
           image: auuaa/docker-hy
           tag: 'latest'
-      - heroku/push-docker-image
+  build:
+    docker/build:
+          image: auuaa/docker-hy
+  
