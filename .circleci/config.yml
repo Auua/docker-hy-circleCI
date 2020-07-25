@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   docker: circleci/docker@1.0.0
-  heroku: circleci/heroku@0.0.10
   
 workflows:
   build_and_debloy_heroku:
@@ -9,17 +8,27 @@ workflows:
       - docker/publish:
           image: auuaa/docker-hy
           tag: 'latest'
-      - build
-      - heroku/deploy-via-git:
+      - heroku:
           requires:
-            - build
+            docker/publish
 
 jobs:
-  build:
+  heroku:
     executor: docker/machine
     steps:
       - checkout
-      - docker/check
-      - docker/build:
-          image: auuaa/docker-hy
+      - run:
+          name: Login to docker
+          command: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+      - run:
+          name: Pull image and tag
+          command: |
+            docker pull auuaa/docker-hy
+            docker tag auuaa/docker-hy registry.heroku.com/docker-hy-circleci/web
+      - run:
+          name: Push to heroku
+          command: |
+            heroku container:login
+            docker push registry.heroku.com/docker-hy-circleci/web
+            heroku container:release web -a=docker-hy-circleci  
   
