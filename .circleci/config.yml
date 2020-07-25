@@ -6,19 +6,17 @@ orbs:
 workflows:
   build_and_debloy_heroku:
     jobs:
-      - publish
+      - docker/publish:
+          image: auuaa/docker-hy
+          tag: 'latest'
       - build:
           requires:
-            - publish
+            - docker-publish
       - heroku/deploy-via-git:
           requires:
             - build
 
 jobs:
-  publish:
-    docker/publish:
-        image: auuaa/docker-hy
-        tag: 'latest'
   build:
     executor: docker/machine
     steps:
