@@ -9,7 +9,4 @@ workflows:
       - docker/publish:
           image: auuaa/docker-hy
           tag: 'latest'
-      - docker/build:
-          image: auuaa/docker-hy
-          tag: 'latest'
       - heroku/push-docker-image
