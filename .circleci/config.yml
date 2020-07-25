@@ -2,7 +2,8 @@ version: 2.1
 orbs:
   docker: circleci/docker@1.0.0
   heroku: circleci/heroku@0.0.10
-workflows:
+  
+jobs:
   deploy:
     jobs:
       - docker/publish:
@@ -10,7 +11,10 @@ workflows:
           tag: 'latest'
   heroku_deploy:
     jobs:
-      - build
-      - heroku/deploy-via-git:
-          requires:
-            - build
+      - heroku/deploy-via-git
+      
+workflows:
+  build_and_debloy_herkou:
+    jobs:
+      - deploy
+      - heroku_deploy
