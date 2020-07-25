@@ -9,9 +9,7 @@ workflows:
       - docker/publish:
           image: auuaa/docker-hy
           tag: 'latest'
-      - build:
-          requires:
-            - docker-publish
+      - build
       - heroku/deploy-via-git:
           requires:
             - build
