@@ -9,6 +9,6 @@ workflows:
       - docker/publish:
           image: auuaa/docker-hy
           tag: 'latest'
-      - heroku/deploy-via-git
+      - heroku/deploy-via-git:
           requires:
             - docker/publish
